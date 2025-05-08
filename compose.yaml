@@ -1,0 +1,85 @@
+version: '3'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    networks:
+      - iot 
+    volumes:
+      - ./mosquitto:/etc/mosquitto
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+  grafana_postgres:
+    container_name: grafana_postgres
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: grafana_db
+      POSTGRES_USER: grafana_usr
+      POSTGRES_PASSWORD: 12345678 
+    networks:
+      - iot 
+    volumes:
+      - postgres-storage:/var/lib/postgresql/data
+  grafana:
+    image: grafana/grafana-enterprise:latest
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+      GF_DATABASE_TYPE: postgres
+      GF_DATABASE_HOST: grafana_postgres
+      GF_DATABASE_NAME: grafana_db
+      GF_DATABASE_USER: grafana_usr
+      GF_DATABASE_PASSWORD: 12345678
+    ports:
+      - '3000:3000'
+    networks:
+      - iot
+    volumes:
+      - grafana-storage:/var/lib/grafana
+  influxdb:
+    image: influxdb:2
+    container_name: influxdb
+    restart: always
+    ports:
+      - '8086:8086'
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: 12345678
+      DOCKER_INFLUXDB_INIT_ORG: personal
+      DOCKER_INFLUXDB_INIT_BUCKET: bucket
+    networks:
+      - iot 
+    volumes:
+      - ./data:/var/lib/influxdb2
+      - ./config:/etc/influxdb2
+  node-red:
+    build: ./node_red/ 
+    environment:
+      - TZ=America/Santiago
+    ports:
+      - "1880:1880"
+    networks:
+      - iot 
+    volumes:
+      - node-red-data:/data
+
+secrets:
+   rabbit_password:
+     file: secret_rabbit_password.txt
+   db_root_password:
+     file: db_root_password.txt
+
+networks:
+  iot:
+
+volumes:
+  grafana-storage: {}
+  postgres-storage: {}
+  node-red-data:

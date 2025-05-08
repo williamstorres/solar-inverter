@@ -1,0 +1,1 @@
+*/5 * * * * venv/bin/python scan_inverter_data.py

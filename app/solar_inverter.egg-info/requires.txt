@@ -1,0 +1,4 @@
+rstream==0.20.8
+pyserial==3.5
+crcmod==1.7
+paho-mqtt==2.1.0

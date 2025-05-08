@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: solar-inverter
+Version: 0.1.0
+Requires-Dist: rstream==0.20.8
+Requires-Dist: pyserial==3.5
+Requires-Dist: crcmod==1.7
+Requires-Dist: paho-mqtt==2.1.0
