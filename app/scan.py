@@ -169,7 +169,7 @@ def INQ_device_general_status_parameters(inverter):
         "pv1_input_current": pv1_input_current,
         "pv1_input_voltage": pv1_input_voltage,
         "battery_voltage_from_scc": battery_voltage_from_scc,
-        "device_status": device_status
+        "device_status": device_status,
         "load_status": load_status,
         "battery_voltage_offset_for_fans_on": battery_voltage_offset_for_fans_on,
         "pv1_charging_power": pv1_charging_power,
