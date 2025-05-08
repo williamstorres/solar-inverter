@@ -162,7 +162,7 @@ def INQ_device_general_status_parameters(inverter):
         "ac_output_active_power": float(ac_output_active_power),
         "output_load_percent": float(output_load_percent),
         "bus_voltage": float(bus_voltage),
-        "battery_voltage": float(battery_voltage,)
+        "battery_voltage": float(battery_voltage),
         "battery_charging_current": float(battery_charging_current),
         "battery_capacity": float(battery_capacity),
         "inverter_heat_sink_temp": float(inverter_heat_sink_temp),
