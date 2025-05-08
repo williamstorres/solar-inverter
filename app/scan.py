@@ -154,9 +154,9 @@ def INQ_device_general_status_parameters(inverter):
     dustproof_installed = device_status_2[2]
 
     return {
-        "grid_voltage": grid_voltage,
-        "grid_frequency": grid_frequency,
-        "ac_output_voltage": ac_output_voltage,
+        "grid_voltage": float(grid_voltage),
+        "grid_frequency": float(grid_frequency),
+        "ac_output_voltage": float(ac_output_voltage),
         "ac_output_frequency": ac_output_frequency,
         "ac_output_apparent_power": ac_output_apparent_power,
         "ac_output_active_power": ac_output_active_power,
@@ -164,7 +164,7 @@ def INQ_device_general_status_parameters(inverter):
         "bus_voltage": bus_voltage,
         "battery_voltage": battery_voltage,
         "battery_charging_current": battery_charging_current,
-        "battery_capacity": battery_capacity,
+        "battery_capacity": float(battery_capacity),
         "inverter_heat_sink_temp": inverter_heat_sink_temp,
         "pv1_input_current": pv1_input_current,
         "pv1_input_voltage": pv1_input_voltage,
