@@ -113,23 +113,68 @@ def INQ_device_general_status_parameters(inverter):
     command_bytes_array.append(13)
     write_inverter(inverter, command_bytes_array)
     response = read_inverter_to_string(inverter)
-    return response
+    
+    grid_voltage = response[1:6]
+    grid_frequency = response[7:11]
+    ac_output_voltage = response[12:17]
+    ac_output_frequency = response[18:22]
+    ac_output_apparent_power = response[23:27]
+    ac_output_active_power = response[28:32]
+    output_load_percent = response[33:36]
+    bus_voltage = response[37:40]
+    battery_voltage = response[41:46]
+    battery_charging_current = response[47:50]
+    battery_capacity = response[51:54]
+    inverter_heat_sink_temp = response[55:59]
+    pv1_input_current = response[60:64]
+    pv1_input_voltage = response[65:70]
+    battery_voltage_from_scc = response[71:76]
+    battery_discharge_current = response[77:82]
+    device_status = response[83:91]
+    add_sbu_priority_version = device_status[0]
+    configuration_status = device_status[1]
+    scc_firmware_version = device_status[2]
+    load_status = device_status[3]
+    battery_voltage_to_steady_while_charging = device_status[4]
+    #print(device_status[5:8])
+    if device_status[5:8] == "000":
+        charging_status = "do nothing"
+    if device_status[5:8] == "110":
+        charging_status = "Charging on with SCC charge on"
+    if device_status[5:8] == "101":
+        charging_status = "Charging on with AC charge on"
+    if device_status[5:8] == "111":
+        charging_status = "Charging on with SCC and AC charge on"
+    battery_voltage_offset_for_fans_on = response[92:94]
+    eeprom_version = response[95:97]
+    pv1_charging_power = response[98:103]
+    device_status_2 = response[104:107]
+    charging_to_floating_mode = device_status_2[0]
+    switch_on = device_status_2[1]
+    dustproof_installed = device_status_2[2]
 
-
-def INQ_device_general_status_parameters_dummy():
     return {
-        "grid_voltage": 000.0,
-        "grid_frequency": 00.0,
-        "ac_output_voltage": 230.1,
-        "ac_output_frequency": 50.0,
-        "ac_output_apparent_power": 46,
-        "ac_output_active_power": 28,
-        "output_load_percent": 0,
-        "bus_voltage": 399,
-        "battery_voltage": 50.60,
-        "battery_charging_current": 0,
-        "battery_capacity": 84
-    }
+        "grid_voltage": grid_voltage,
+        "grid_frequency": grid_frequency,
+        "ac_output_voltage": ac_output_voltage,
+        "ac_output_frequency": ac_output_frequency,
+        "ac_output_apparent_power": ac_output_apparent_power,
+        "ac_output_active_power": ac_output_active_power,
+        "output_load_percent": output_load_percent,
+        "bus_voltage": bus_voltage,
+        "battery_voltage": battery_voltage,
+        "battery_charging_current": battery_charging_current,
+        "battery_capacity": battery_capacity,
+        "inverter_heat_sink_temp": inverter_heat_sink_temp,
+        "pv1_input_current": pv1_input_current,
+        "pv1_input_voltage": pv1_input_voltage,
+        "battery_voltage_from_scc": battery_voltage_from_scc,
+        "device_status": device_status
+        "load_status": load_status,
+        "battery_voltage_offset_for_fans_on": battery_voltage_offset_for_fans_on,
+        "pv1_charging_power": pv1_charging_power,
+        "charging_to_floating_mode": charging_to_floating_mode
+    }    
 
 def send_to_mqtt(parameters):
     topic = "inverter"
