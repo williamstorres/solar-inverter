@@ -140,6 +140,7 @@ def send_to_mqtt(parameters):
     client.publish(topic, payload=str(parameters), qos=1)
 
 if __name__ == "__main__":
-    # inverter = get_inverter()
-    send_to_mqtt(INQ_device_general_status_parameters_dummy())
-    # disconnect_inverter(inverter)
+    inverter = get_inverter()
+    println(INQ_device_general_status_parameters(inverter))
+    # send_to_mqtt(INQ_device_general_status_parameters_dummy())
+    disconnect_inverter(inverter)
