@@ -186,6 +186,6 @@ def send_to_mqtt(parameters):
 
 if __name__ == "__main__":
     inverter = get_inverter()
-    println(INQ_device_general_status_parameters(inverter))
+    print(INQ_device_general_status_parameters(inverter))
     # send_to_mqtt(INQ_device_general_status_parameters_dummy())
     disconnect_inverter(inverter)
